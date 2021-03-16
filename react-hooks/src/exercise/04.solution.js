@@ -6,6 +6,7 @@ import * as React from 'react'
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
   const [squares, setSquares] = React.useState(Array(9).fill(null));
+
   // 🐨 We'll need the following bits of derived state:
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
