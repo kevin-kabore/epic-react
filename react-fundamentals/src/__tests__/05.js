@@ -1,11 +1,11 @@
 import * as React from 'react'
 import chalk from 'chalk'
-import {render, screen, prettyDOM} from '@testing-library/react'
+import { render, screen, prettyDOM } from '@testing-library/react'
 import App from '../final/05'
 // import App from '../exercise/05'
 
 test('renders the correct styles new', () => {
-  const {container} = render(<App />)
+  const { container } = render(<App />)
   const allBoxes = screen.getAllByText(/box/i)
 
   try {
@@ -16,9 +16,7 @@ test('renders the correct styles new', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
-      `One of the boxes is missing the className "box"`,
-    )}\n\n${prettyDOM(container)}`
+    error.message = `🚨  ${chalk.red(`One of the boxes is missing the className "box"`)}\n\n${prettyDOM(container)}`
 
     throw error
   }
@@ -31,9 +29,7 @@ test('renders the correct styles new', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
-      `One of the boxes is missing fontStyle: 'italic' in the style prop`,
-    )}\n\n${prettyDOM(container)}`
+    error.message = `🚨  ${chalk.red(`One of the boxes is missing fontStyle: 'italic' in the style prop`)}\n\n${prettyDOM(container)}`
 
     throw error
   }

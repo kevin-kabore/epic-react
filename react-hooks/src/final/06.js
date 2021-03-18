@@ -2,14 +2,9 @@
 // http://localhost:3000/isolated/final/06.js
 
 import * as React from 'react'
-import {
-  fetchPokemon,
-  PokemonInfoFallback,
-  PokemonForm,
-  PokemonDataView,
-} from '../pokemon'
+import { fetchPokemon, PokemonInfoFallback, PokemonForm, PokemonDataView } from '../pokemon'
 
-function PokemonInfo({pokemonName}) {
+function PokemonInfo({ pokemonName }) {
   const [pokemon, setPokemon] = React.useState(null)
 
   React.useEffect(() => {
@@ -37,10 +32,10 @@ function App() {
   }
 
   return (
-    <div className="pokemon-info-app">
+    <div className='pokemon-info-app'>
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
-      <div className="pokemon-info">
+      <div className='pokemon-info'>
         <PokemonInfo pokemonName={pokemonName} />
       </div>
     </div>

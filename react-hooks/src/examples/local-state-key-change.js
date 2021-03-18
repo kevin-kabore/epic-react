@@ -3,9 +3,9 @@
 // http://localhost:3000/isolated/examples/local-state-key-change.js
 
 import * as React from 'react'
-import {useLocalStorageState} from '../utils'
+import { useLocalStorageState } from '../utils'
 
-function Greeting({initialName = ''}) {
+function Greeting({ initialName = '' }) {
   const [key, setKey] = React.useState('name')
   const [name, setName] = useLocalStorageState(key, initialName)
 
@@ -25,12 +25,12 @@ function Greeting({initialName = ''}) {
 
   return (
     <div>
-      <button type="button" onClick={handleClick}>
+      <button type='button' onClick={handleClick}>
         Change key!
       </button>
       <form>
-        <label htmlFor="name">Name: </label>
-        <input value={name} onChange={handleChange} id="name" />
+        <label htmlFor='name'>Name: </label>
+        <input value={name} onChange={handleChange} id='name' />
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>

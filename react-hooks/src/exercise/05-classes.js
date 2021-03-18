@@ -25,8 +25,8 @@ class Tilt extends React.Component {
   }
   render() {
     return (
-      <div ref={this.tiltRef} className="tilt-root">
-        <div className="tilt-child">{this.props.children}</div>
+      <div ref={this.tiltRef} className='tilt-root'>
+        <div className='tilt-child'>{this.props.children}</div>
       </div>
     )
   }
@@ -34,7 +34,7 @@ class Tilt extends React.Component {
 function App() {
   return (
     <Tilt>
-      <div className="totally-centered">vanilla-tilt.js</div>
+      <div className='totally-centered'>vanilla-tilt.js</div>
     </Tilt>
   )
 }

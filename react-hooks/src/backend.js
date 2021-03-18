@@ -1,4 +1,4 @@
-import {graphql} from '@kentcdodds/react-workshop-app/server'
+import { graphql } from '@kentcdodds/react-workshop-app/server'
 
 const pokemonApi = graphql.link('https://graphql-pokemon2.vercel.app/')
 
@@ -6,11 +6,10 @@ export const handlers = [
   pokemonApi.query('PokemonInfo', (req, res, ctx) => {
     const pokemon = allPokemon[req.variables.name.toLowerCase()]
     if (pokemon) {
-      return res(ctx.status(200), ctx.data({pokemon}))
+      return res(ctx.status(200), ctx.data({ pokemon }))
     } else {
       const pokemonNames = Object.keys(allPokemon)
-      const randomName =
-        pokemonNames[Math.floor(pokemonNames.length * Math.random())]
+      const randomName = pokemonNames[Math.floor(pokemonNames.length * Math.random())]
       return res(
         ctx.status(404),
         ctx.data({

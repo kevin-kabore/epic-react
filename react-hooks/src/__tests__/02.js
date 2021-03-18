@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/02'
 // import App from '../exercise/02'
@@ -9,8 +9,8 @@ afterEach(() => {
 })
 
 test('App works', () => {
-  const {rerender} = render(<App />)
-  userEvent.type(screen.getByRole('textbox', {name: /name/i}), 'bob')
+  const { rerender } = render(<App />)
+  userEvent.type(screen.getByRole('textbox', { name: /name/i }), 'bob')
   const lsName = window.localStorage.getItem('name')
 
   // extra credit 4 serializes the value in localStorage so there's a bit of a
@@ -28,7 +28,7 @@ test('App works', () => {
 
   // make sure it's initialized properly
   window.localStorage.setItem('name', isSerialized ? '"jill"' : 'jill')
-  rerender(<App key="new" />)
+  rerender(<App key='new' />)
   const greetingText = screen.getByText(/hello/i).textContent
   if (!greetingText.includes('jill')) {
     throw new Error(
@@ -40,5 +40,5 @@ test('App works', () => {
       `🚨 the value in localStorage is not getting deserialized properly. Make sure the value is deserialized when read from localStorage.`,
     )
   }
-  expect(screen.getByRole('textbox', {name: /name/i})).toHaveValue('jill')
+  expect(screen.getByRole('textbox', { name: /name/i })).toHaveValue('jill')
 })

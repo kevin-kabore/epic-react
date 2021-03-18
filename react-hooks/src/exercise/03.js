@@ -3,11 +3,11 @@
 
 import * as React from 'react'
 
-function Name({name, onNameChange}) {
+function Name({ name, onNameChange }) {
   return (
     <div>
-      <label htmlFor="name">Name: </label>
-      <input id="name" value={name} onChange={onNameChange} />
+      <label htmlFor='name'>Name: </label>
+      <input id='name' value={name} onChange={onNameChange} />
     </div>
   )
 }
@@ -18,12 +18,8 @@ function FavoriteAnimal() {
   const [animal, setAnimal] = React.useState('')
   return (
     <div>
-      <label htmlFor="animal">Favorite Animal: </label>
-      <input
-        id="animal"
-        value={animal}
-        onChange={event => setAnimal(event.target.value)}
-      />
+      <label htmlFor='animal'>Favorite Animal: </label>
+      <input id='animal' value={animal} onChange={event => setAnimal(event.target.value)} />
     </div>
   )
 }
@@ -34,7 +30,7 @@ function FavoriteAnimal() {
 // }
 
 // 💣 remove this component in favor of the new one
-function Display({name}) {
+function Display({ name }) {
   return <div>{`Hey ${name}, you are great!`}</div>
 }
 

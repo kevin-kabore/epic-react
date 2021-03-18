@@ -12,28 +12,27 @@ import * as React from 'react'
 
 class Board extends React.Component {
   state = {
-    squares:
-      JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
+    squares: JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
   }
 
   selectSquare(square) {
-    const {squares} = this.state
+    const { squares } = this.state
     const nextValue = calculateNextValue(squares)
     if (calculateWinner(squares) || squares[square]) {
       return
     }
     const squaresCopy = [...squares]
     squaresCopy[square] = nextValue
-    this.setState({squares: squaresCopy})
+    this.setState({ squares: squaresCopy })
   }
   renderSquare = i => (
-    <button className="square" onClick={() => this.selectSquare(i)}>
+    <button className='square' onClick={() => this.selectSquare(i)}>
       {this.state.squares[i]}
     </button>
   )
 
   restart = () => {
-    this.setState({squares: Array(9).fill(null)})
+    this.setState({ squares: Array(9).fill(null) })
     this.updateLocalStorage()
   }
 
@@ -52,30 +51,30 @@ class Board extends React.Component {
   }
 
   render() {
-    const {squares} = this.state
+    const { squares } = this.state
     const nextValue = calculateNextValue(squares)
     const winner = calculateWinner(squares)
     let status = calculateStatus(winner, squares, nextValue)
 
     return (
       <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
+        <div className='status'>{status}</div>
+        <div className='board-row'>
           {this.renderSquare(0)}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
         </div>
-        <div className="board-row">
+        <div className='board-row'>
           {this.renderSquare(3)}
           {this.renderSquare(4)}
           {this.renderSquare(5)}
         </div>
-        <div className="board-row">
+        <div className='board-row'>
           {this.renderSquare(6)}
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
-        <button className="restart" onClick={this.restart}>
+        <button className='restart' onClick={this.restart}>
           restart
         </button>
       </div>
@@ -85,8 +84,8 @@ class Board extends React.Component {
 
 function Game() {
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className='game'>
+      <div className='game-board'>
         <Board />
       </div>
     </div>
@@ -94,11 +93,7 @@ function Game() {
 }
 
 function calculateStatus(winner, squares, nextValue) {
-  return winner
-    ? `Winner: ${winner}`
-    : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
 }
 
 function calculateNextValue(squares) {

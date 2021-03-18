@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
+function Greeting({ initialName = '' }) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') || initialName
   const [name, setName] = React.useState(initialName)
@@ -18,8 +18,8 @@ function Greeting({initialName = ''}) {
   return (
     <div>
       <form>
-        <label htmlFor="name">Name: </label>
-        <input value={name} onChange={handleChange} id="name" />
+        <label htmlFor='name'>Name: </label>
+        <input value={name} onChange={handleChange} id='name' />
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>

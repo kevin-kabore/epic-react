@@ -3,12 +3,12 @@
 // http://localhost:3000/isolated/final/04.extra-3.js
 
 import * as React from 'react'
-import {useLocalStorageState} from '../utils'
+import { useLocalStorageState } from '../utils'
 
-function Board({squares, onClick}) {
+function Board({ squares, onClick }) {
   function renderSquare(i) {
     return (
-      <button className="square" onClick={() => onClick(i)}>
+      <button className='square' onClick={() => onClick(i)}>
         {squares[i]}
       </button>
     )
@@ -16,17 +16,17 @@ function Board({squares, onClick}) {
 
   return (
     <div>
-      <div className="board-row">
+      <div className='board-row'>
         {renderSquare(0)}
         {renderSquare(1)}
         {renderSquare(2)}
       </div>
-      <div className="board-row">
+      <div className='board-row'>
         {renderSquare(3)}
         {renderSquare(4)}
         {renderSquare(5)}
       </div>
-      <div className="board-row">
+      <div className='board-row'>
         {renderSquare(6)}
         {renderSquare(7)}
         {renderSquare(8)}
@@ -36,13 +36,8 @@ function Board({squares, onClick}) {
 }
 
 function Game() {
-  const [history, setHistory] = useLocalStorageState('tic-tac-toe:history', [
-    Array(9).fill(null),
-  ])
-  const [currentStep, setCurrentStep] = useLocalStorageState(
-    'tic-tac-toe:step',
-    0,
-  )
+  const [history, setHistory] = useLocalStorageState('tic-tac-toe:history', [Array(9).fill(null)])
+  const [currentStep, setCurrentStep] = useLocalStorageState('tic-tac-toe:step', 0)
 
   const currentSquares = history[currentStep]
   const winner = calculateWinner(currentSquares)
@@ -80,14 +75,14 @@ function Game() {
   })
 
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className='game'>
+      <div className='game-board'>
         <Board onClick={selectSquare} squares={currentSquares} />
-        <button className="restart" onClick={restart}>
+        <button className='restart' onClick={restart}>
           restart
         </button>
       </div>
-      <div className="game-info">
+      <div className='game-info'>
         <div>{status}</div>
         <ol>{moves}</ol>
       </div>
@@ -96,11 +91,7 @@ function Game() {
 }
 
 function calculateStatus(winner, squares, nextValue) {
-  return winner
-    ? `Winner: ${winner}`
-    : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
 }
 
 function calculateNextValue(squares) {

@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 
-function UsernameForm({onSubmitUsername}) {
+function UsernameForm({ onSubmitUsername }) {
   const [username, setUsername] = React.useState('')
 
   function handleSubmit(event) {
@@ -19,15 +19,10 @@ function UsernameForm({onSubmitUsername}) {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input
-          id="usernameInput"
-          type="text"
-          onChange={handleChange}
-          value={username}
-        />
+        <label htmlFor='usernameInput'>Username:</label>
+        <input id='usernameInput' type='text' onChange={handleChange} value={username} />
       </div>
-      <button type="submit">Submit</button>
+      <button type='submit'>Submit</button>
     </form>
   )
 }
@@ -35,7 +30,7 @@ function UsernameForm({onSubmitUsername}) {
 function App() {
   const onSubmitUsername = username => alert(`You entered: ${username}`)
   return (
-    <div style={{minWidth: 400}}>
+    <div style={{ minWidth: 400 }}>
       <UsernameForm onSubmitUsername={onSubmitUsername} />
     </div>
   )

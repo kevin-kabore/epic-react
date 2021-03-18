@@ -40,7 +40,7 @@ function Board() {
 
   function renderSquare(i) {
     return (
-      <button className="square" onClick={() => selectSquare(i)}>
+      <button className='square' onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
     )
@@ -49,23 +49,23 @@ function Board() {
   return (
     <div>
       {/* 🐨 put the status in the div below */}
-      <div className="status">STATUS</div>
-      <div className="board-row">
+      <div className='status'>STATUS</div>
+      <div className='board-row'>
         {renderSquare(0)}
         {renderSquare(1)}
         {renderSquare(2)}
       </div>
-      <div className="board-row">
+      <div className='board-row'>
         {renderSquare(3)}
         {renderSquare(4)}
         {renderSquare(5)}
       </div>
-      <div className="board-row">
+      <div className='board-row'>
         {renderSquare(6)}
         {renderSquare(7)}
         {renderSquare(8)}
       </div>
-      <button className="restart" onClick={restart}>
+      <button className='restart' onClick={restart}>
         restart
       </button>
     </div>
@@ -74,8 +74,8 @@ function Board() {
 
 function Game() {
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className='game'>
+      <div className='game-board'>
         <Board />
       </div>
     </div>
@@ -84,11 +84,7 @@ function Game() {
 
 // eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
-  return winner
-    ? `Winner: ${winner}`
-    : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
 }
 
 // eslint-disable-next-line no-unused-vars

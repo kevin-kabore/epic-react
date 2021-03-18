@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 
-function UsernameForm({onSubmitUsername}) {
+function UsernameForm({ onSubmitUsername }) {
   const usernameInputRef = React.useRef()
 
   function handleSubmit(event) {
@@ -15,10 +15,10 @@ function UsernameForm({onSubmitUsername}) {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input id="usernameInput" type="text" ref={usernameInputRef} />
+        <label htmlFor='usernameInput'>Username:</label>
+        <input id='usernameInput' type='text' ref={usernameInputRef} />
       </div>
-      <button type="submit">Submit</button>
+      <button type='submit'>Submit</button>
     </form>
   )
 }

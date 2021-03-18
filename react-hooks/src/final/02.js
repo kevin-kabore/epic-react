@@ -3,10 +3,8 @@
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
-  const [name, setName] = React.useState(
-    window.localStorage.getItem('name') || initialName,
-  )
+function Greeting({ initialName = '' }) {
+  const [name, setName] = React.useState(window.localStorage.getItem('name') || initialName)
 
   React.useEffect(() => {
     window.localStorage.setItem('name', name)
@@ -19,8 +17,8 @@ function Greeting({initialName = ''}) {
   return (
     <div>
       <form>
-        <label htmlFor="name">Name: </label>
-        <input value={name} onChange={handleChange} id="name" />
+        <label htmlFor='name'>Name: </label>
+        <input value={name} onChange={handleChange} id='name' />
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>

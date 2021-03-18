@@ -11,8 +11,8 @@ function Greeting() {
   return (
     <div>
       <form>
-        <label htmlFor="name">Name: </label>
-        <input onChange={handleChange} id="name" />
+        <label htmlFor='name'>Name: </label>
+        <input onChange={handleChange} id='name' />
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>

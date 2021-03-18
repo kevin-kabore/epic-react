@@ -7,11 +7,7 @@ import * as React from 'react'
  * @param {{serialize: Function, deserialize: Function}} options The serialize and deserialize functions to use (defaults to JSON.stringify and JSON.parse respectively)
  */
 
-function useLocalStorageState(
-  key,
-  defaultValue = '',
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
-) {
+function useLocalStorageState(key, defaultValue = '', { serialize = JSON.stringify, deserialize = JSON.parse } = {}) {
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
@@ -34,4 +30,4 @@ function useLocalStorageState(
   return [state, setState]
 }
 
-export {useLocalStorageState}
+export { useLocalStorageState }
