@@ -1,9 +1,9 @@
 // useRef and useEffect: DOM interaction
 // http://localhost:3000/isolated/exercise/05.js
 
-import * as React from 'react'
+import * as React from 'react';
 // eslint-disable-next-line no-unused-vars
-import VanillaTilt from 'vanilla-tilt'
+import VanillaTilt from 'vanilla-tilt';
 
 function Tilt({ children }) {
   // 🐨 create a ref here with React.useRef()
@@ -32,7 +32,7 @@ function Tilt({ children }) {
     <div className='tilt-root'>
       <div className='tilt-child'>{children}</div>
     </div>
-  )
+  );
 }
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
     <Tilt>
       <div className='totally-centered'>vanilla-tilt.js</div>
     </Tilt>
-  )
+  );
 }
 
-export default App
+export default App;

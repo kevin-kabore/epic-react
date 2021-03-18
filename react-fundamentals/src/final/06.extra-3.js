@@ -2,18 +2,18 @@
 // 💯 Control the input value
 // http://localhost:3000/isolated/final/06.extra-3.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 function UsernameForm({ onSubmitUsername }) {
-  const [username, setUsername] = React.useState('')
+  const [username, setUsername] = React.useState('');
 
   function handleSubmit(event) {
-    event.preventDefault()
-    onSubmitUsername(username)
+    event.preventDefault();
+    onSubmitUsername(username);
   }
 
   function handleChange(event) {
-    setUsername(event.target.value.toLowerCase())
+    setUsername(event.target.value.toLowerCase());
   }
 
   return (
@@ -24,16 +24,16 @@ function UsernameForm({ onSubmitUsername }) {
       </div>
       <button type='submit'>Submit</button>
     </form>
-  )
+  );
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
+  const onSubmitUsername = username => alert(`You entered: ${username}`);
   return (
     <div style={{ minWidth: 400 }}>
       <UsernameForm onSubmitUsername={onSubmitUsername} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

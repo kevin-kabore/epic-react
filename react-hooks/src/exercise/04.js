@@ -1,11 +1,11 @@
 // useState: tic tac toe
 // http://localhost:3000/isolated/exercise/04.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
-  const squares = Array(9).fill(null)
+  const squares = Array(9).fill(null);
 
   // 🐨 We'll need the following bits of derived state:
   // - nextValue ('X' or 'O')
@@ -43,7 +43,7 @@ function Board() {
       <button className='square' onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
-    )
+    );
   }
 
   return (
@@ -69,7 +69,7 @@ function Board() {
         restart
       </button>
     </div>
-  )
+  );
 }
 
 function Game() {
@@ -79,19 +79,19 @@ function Game() {
         <Board />
       </div>
     </div>
-  )
+  );
 }
 
 // eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
-  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`;
 }
 
 // eslint-disable-next-line no-unused-vars
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  const xSquaresCount = squares.filter(r => r === 'X').length;
+  const oSquaresCount = squares.filter(r => r === 'O').length;
+  return oSquaresCount === xSquaresCount ? 'X' : 'O';
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -105,18 +105,18 @@ function calculateWinner(squares) {
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
-  ]
+  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return squares[a];
     }
   }
-  return null
+  return null;
 }
 
 function App() {
-  return <Game />
+  return <Game />;
 }
 
-export default App
+export default App;

@@ -2,7 +2,7 @@
 // 💯 (alternate) migrate from classes
 // http://localhost:3000/isolated/exercise/04-classes.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 // If you'd rather practice refactoring a class component to a function
 // component with hooks, then go ahead and do this exercise.
@@ -13,48 +13,48 @@ import * as React from 'react'
 class Board extends React.Component {
   state = {
     squares: JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
-  }
+  };
 
   selectSquare(square) {
-    const { squares } = this.state
-    const nextValue = calculateNextValue(squares)
+    const { squares } = this.state;
+    const nextValue = calculateNextValue(squares);
     if (calculateWinner(squares) || squares[square]) {
-      return
+      return;
     }
-    const squaresCopy = [...squares]
-    squaresCopy[square] = nextValue
-    this.setState({ squares: squaresCopy })
+    const squaresCopy = [...squares];
+    squaresCopy[square] = nextValue;
+    this.setState({ squares: squaresCopy });
   }
   renderSquare = i => (
     <button className='square' onClick={() => this.selectSquare(i)}>
       {this.state.squares[i]}
     </button>
-  )
+  );
 
   restart = () => {
-    this.setState({ squares: Array(9).fill(null) })
-    this.updateLocalStorage()
-  }
+    this.setState({ squares: Array(9).fill(null) });
+    this.updateLocalStorage();
+  };
 
   componentDidMount() {
-    this.updateLocalStorage()
+    this.updateLocalStorage();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.squares !== this.state.squares) {
-      this.updateLocalStorage()
+      this.updateLocalStorage();
     }
   }
 
   updateLocalStorage() {
-    window.localStorage.setItem('squares', JSON.stringify(this.state.squares))
+    window.localStorage.setItem('squares', JSON.stringify(this.state.squares));
   }
 
   render() {
-    const { squares } = this.state
-    const nextValue = calculateNextValue(squares)
-    const winner = calculateWinner(squares)
-    let status = calculateStatus(winner, squares, nextValue)
+    const { squares } = this.state;
+    const nextValue = calculateNextValue(squares);
+    const winner = calculateWinner(squares);
+    let status = calculateStatus(winner, squares, nextValue);
 
     return (
       <div>
@@ -78,7 +78,7 @@ class Board extends React.Component {
           restart
         </button>
       </div>
-    )
+    );
   }
 }
 
@@ -89,17 +89,17 @@ function Game() {
         <Board />
       </div>
     </div>
-  )
+  );
 }
 
 function calculateStatus(winner, squares, nextValue) {
-  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`;
 }
 
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  const xSquaresCount = squares.filter(r => r === 'X').length;
+  const oSquaresCount = squares.filter(r => r === 'O').length;
+  return oSquaresCount === xSquaresCount ? 'X' : 'O';
 }
 
 function calculateWinner(squares) {
@@ -112,18 +112,18 @@ function calculateWinner(squares) {
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
-  ]
+  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return squares[a];
     }
   }
-  return null
+  return null;
 }
 
 function App() {
-  return <Game />
+  return <Game />;
 }
 
-export default App
+export default App;

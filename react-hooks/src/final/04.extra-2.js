@@ -2,27 +2,27 @@
 // 💯 useLocalStorageState
 // http://localhost:3000/isolated/final/04.extra-2.js
 
-import * as React from 'react'
-import { useLocalStorageState } from '../utils'
+import * as React from 'react';
+import { useLocalStorageState } from '../utils';
 
 function Board() {
-  const [squares, setSquares] = useLocalStorageState('squares', Array(9).fill(null))
+  const [squares, setSquares] = useLocalStorageState('squares', Array(9).fill(null));
 
-  const nextValue = calculateNextValue(squares)
-  const winner = calculateWinner(squares)
-  const status = calculateStatus(winner, squares, nextValue)
+  const nextValue = calculateNextValue(squares);
+  const winner = calculateWinner(squares);
+  const status = calculateStatus(winner, squares, nextValue);
 
   function selectSquare(square) {
     if (winner || squares[square]) {
-      return
+      return;
     }
-    const squaresCopy = [...squares]
-    squaresCopy[square] = nextValue
-    setSquares(squaresCopy)
+    const squaresCopy = [...squares];
+    squaresCopy[square] = nextValue;
+    setSquares(squaresCopy);
   }
 
   function restart() {
-    setSquares(Array(9).fill(null))
+    setSquares(Array(9).fill(null));
   }
 
   function renderSquare(i) {
@@ -30,7 +30,7 @@ function Board() {
       <button className='square' onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
-    )
+    );
   }
 
   return (
@@ -55,7 +55,7 @@ function Board() {
         restart
       </button>
     </div>
-  )
+  );
 }
 
 function Game() {
@@ -65,17 +65,17 @@ function Game() {
         <Board />
       </div>
     </div>
-  )
+  );
 }
 
 function calculateStatus(winner, squares, nextValue) {
-  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`;
 }
 
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  const xSquaresCount = squares.filter(r => r === 'X').length;
+  const oSquaresCount = squares.filter(r => r === 'O').length;
+  return oSquaresCount === xSquaresCount ? 'X' : 'O';
 }
 
 function calculateWinner(squares) {
@@ -88,18 +88,18 @@ function calculateWinner(squares) {
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
-  ]
+  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return squares[a];
     }
   }
-  return null
+  return null;
 }
 
 function App() {
-  return <Game />
+  return <Game />;
 }
 
-export default App
+export default App;

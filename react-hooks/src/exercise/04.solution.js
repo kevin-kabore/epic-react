@@ -1,8 +1,8 @@
 // useState: tic tac toe
 // http://localhost:3000/isolated/exercise/04.js
 
-import * as React from 'react'
-import { useLocalStorageState } from '../utils'
+import * as React from 'react';
+import { useLocalStorageState } from '../utils';
 
 function Board({ squares, selectSquare }) {
   function renderSquare(i) {
@@ -10,7 +10,7 @@ function Board({ squares, selectSquare }) {
       <button className='square' onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
-    )
+    );
   }
 
   return (
@@ -31,32 +31,32 @@ function Board({ squares, selectSquare }) {
         {renderSquare(8)}
       </div>
     </div>
-  )
+  );
 }
 
 function Game() {
-  const [moves, setMoves] = useLocalStorageState('history', [Array(9).fill(null)])
-  const [currentStep, setCurrentStep] = useLocalStorageState('step', moves.length - 1)
-  const currentSquares = moves[currentStep]
-  const nextValue = calculateNextValue(currentSquares)
-  const winner = calculateWinner(currentSquares)
-  const status = calculateStatus(winner, currentSquares, nextValue)
+  const [moves, setMoves] = useLocalStorageState('history', [Array(9).fill(null)]);
+  const [currentStep, setCurrentStep] = useLocalStorageState('step', moves.length - 1);
+  const currentSquares = moves[currentStep];
+  const nextValue = calculateNextValue(currentSquares);
+  const winner = calculateWinner(currentSquares);
+  const status = calculateStatus(winner, currentSquares, nextValue);
 
   function restart() {
-    setCurrentStep(0)
+    setCurrentStep(0);
   }
 
   function selectSquare(square) {
     if (winner || currentSquares[square]) {
-      return
+      return;
     }
 
-    const squaresCopy = [...currentSquares]
-    squaresCopy[square] = nextValue
-    const movesCopy = [...moves]
-    movesCopy.push(squaresCopy)
-    setMoves(movesCopy)
-    setCurrentStep(currentStep + 1)
+    const squaresCopy = [...currentSquares];
+    squaresCopy[square] = nextValue;
+    const movesCopy = [...moves];
+    movesCopy.push(squaresCopy);
+    setMoves(movesCopy);
+    setCurrentStep(currentStep + 1);
   }
 
   return (
@@ -81,19 +81,19 @@ function Game() {
         </ol>
       </div>
     </div>
-  )
+  );
 }
 
 // eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
-  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`;
 }
 
 // eslint-disable-next-line no-unused-vars
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  const xSquaresCount = squares.filter(r => r === 'X').length;
+  const oSquaresCount = squares.filter(r => r === 'O').length;
+  return oSquaresCount === xSquaresCount ? 'X' : 'O';
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -107,18 +107,18 @@ function calculateWinner(squares) {
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
-  ]
+  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return squares[a];
     }
   }
-  return null
+  return null;
 }
 
 function App() {
-  return <Game />
+  return <Game />;
 }
 
-export default App
+export default App;

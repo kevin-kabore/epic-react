@@ -1,24 +1,24 @@
 // Rendering Lists
 // http://localhost:3000/isolated/final/07.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 const allItems = [
   { id: 'apple', value: '🍎 apple' },
   { id: 'orange', value: '🍊 orange' },
   { id: 'grape', value: '🍇 grape' },
   { id: 'pear', value: '🍐 pear' },
-]
+];
 
 function App() {
-  const [items, setItems] = React.useState(allItems)
+  const [items, setItems] = React.useState(allItems);
 
   function addItem() {
-    setItems([...items, allItems.find(i => !items.map(({ id }) => id).includes(i.id))])
+    setItems([...items, allItems.find(i => !items.map(({ id }) => id).includes(i.id))]);
   }
 
   function removeItem(item) {
-    setItems(items.filter(i => i.id !== item.id))
+    setItems(items.filter(i => i.id !== item.id));
   }
 
   return (
@@ -35,7 +35,7 @@ function App() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

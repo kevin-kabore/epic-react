@@ -2,8 +2,8 @@
 // 💯 add game history feature
 // http://localhost:3000/isolated/final/04.extra-3.js
 
-import * as React from 'react'
-import { useLocalStorageState } from '../utils'
+import * as React from 'react';
+import { useLocalStorageState } from '../utils';
 
 function Board({ squares, onClick }) {
   function renderSquare(i) {
@@ -11,7 +11,7 @@ function Board({ squares, onClick }) {
       <button className='square' onClick={() => onClick(i)}>
         {squares[i]}
       </button>
-    )
+    );
   }
 
   return (
@@ -32,47 +32,47 @@ function Board({ squares, onClick }) {
         {renderSquare(8)}
       </div>
     </div>
-  )
+  );
 }
 
 function Game() {
-  const [history, setHistory] = useLocalStorageState('tic-tac-toe:history', [Array(9).fill(null)])
-  const [currentStep, setCurrentStep] = useLocalStorageState('tic-tac-toe:step', 0)
+  const [history, setHistory] = useLocalStorageState('tic-tac-toe:history', [Array(9).fill(null)]);
+  const [currentStep, setCurrentStep] = useLocalStorageState('tic-tac-toe:step', 0);
 
-  const currentSquares = history[currentStep]
-  const winner = calculateWinner(currentSquares)
-  const nextValue = calculateNextValue(currentSquares)
-  const status = calculateStatus(winner, currentSquares, nextValue)
+  const currentSquares = history[currentStep];
+  const winner = calculateWinner(currentSquares);
+  const nextValue = calculateNextValue(currentSquares);
+  const status = calculateStatus(winner, currentSquares, nextValue);
 
   function selectSquare(square) {
     if (winner || currentSquares[square]) {
-      return
+      return;
     }
 
-    const newHistory = history.slice(0, currentStep + 1)
-    const squares = [...currentSquares]
+    const newHistory = history.slice(0, currentStep + 1);
+    const squares = [...currentSquares];
 
-    squares[square] = nextValue
-    setHistory([...newHistory, squares])
-    setCurrentStep(newHistory.length)
+    squares[square] = nextValue;
+    setHistory([...newHistory, squares]);
+    setCurrentStep(newHistory.length);
   }
 
   function restart() {
-    setHistory([Array(9).fill(null)])
-    setCurrentStep(0)
+    setHistory([Array(9).fill(null)]);
+    setCurrentStep(0);
   }
 
   const moves = history.map((stepSquares, step) => {
-    const desc = step ? `Go to move #${step}` : 'Go to game start'
-    const isCurrentStep = step === currentStep
+    const desc = step ? `Go to move #${step}` : 'Go to game start';
+    const isCurrentStep = step === currentStep;
     return (
       <li key={step}>
         <button disabled={isCurrentStep} onClick={() => setCurrentStep(step)}>
           {desc} {isCurrentStep ? '(current)' : null}
         </button>
       </li>
-    )
-  })
+    );
+  });
 
   return (
     <div className='game'>
@@ -87,17 +87,17 @@ function Game() {
         <ol>{moves}</ol>
       </div>
     </div>
-  )
+  );
 }
 
 function calculateStatus(winner, squares, nextValue) {
-  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`
+  return winner ? `Winner: ${winner}` : squares.every(Boolean) ? `Scratch: Cat's game` : `Next player: ${nextValue}`;
 }
 
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  const xSquaresCount = squares.filter(r => r === 'X').length;
+  const oSquaresCount = squares.filter(r => r === 'O').length;
+  return oSquaresCount === xSquaresCount ? 'X' : 'O';
 }
 
 function calculateWinner(squares) {
@@ -110,18 +110,18 @@ function calculateWinner(squares) {
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
-  ]
+  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return squares[a];
     }
   }
-  return null
+  return null;
 }
 
 function App() {
-  return <Game />
+  return <Game />;
 }
 
-export default App
+export default App;

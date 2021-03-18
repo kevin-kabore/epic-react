@@ -2,12 +2,12 @@
 // 💯 accept an initialName
 // http://localhost:3000/isolated/final/01.extra-1.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 function Greeting({ initialName = '' }) {
-  const [name, setName] = React.useState(initialName)
+  const [name, setName] = React.useState(initialName);
   function handleChange(event) {
-    setName(event.target.value)
+    setName(event.target.value);
   }
   return (
     <div>
@@ -17,11 +17,11 @@ function Greeting({ initialName = '' }) {
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>
-  )
+  );
 }
 
 function App() {
-  return <Greeting initialName='Kody' />
+  return <Greeting initialName='Kody' />;
 }
 
-export default App
+export default App;

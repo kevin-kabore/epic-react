@@ -2,12 +2,12 @@
 // 💯 accept a size prop to encapsulate styling
 // http://localhost:3000/isolated/final/05.extra-2.js
 
-import * as React from 'react'
-import '../box-styles.css'
+import * as React from 'react';
+import '../box-styles.css';
 
 function Box({ style, size, className = '', ...otherProps }) {
-  const sizeClassName = size ? `box--${size}` : ''
-  return <div className={`box ${className} ${sizeClassName}`} style={{ fontStyle: 'italic', ...style }} {...otherProps} />
+  const sizeClassName = size ? `box--${size}` : '';
+  return <div className={`box ${className} ${sizeClassName}`} style={{ fontStyle: 'italic', ...style }} {...otherProps} />;
 }
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
       </Box>
       <Box>sizeless box</Box>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

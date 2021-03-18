@@ -2,14 +2,14 @@
 // 💯 using refs
 // http://localhost:3000/isolated/final/06.extra-1.js
 
-import * as React from 'react'
+import * as React from 'react';
 
 function UsernameForm({ onSubmitUsername }) {
-  const usernameInputRef = React.useRef()
+  const usernameInputRef = React.useRef();
 
   function handleSubmit(event) {
-    event.preventDefault()
-    onSubmitUsername(usernameInputRef.current.value)
+    event.preventDefault();
+    onSubmitUsername(usernameInputRef.current.value);
   }
 
   return (
@@ -20,12 +20,12 @@ function UsernameForm({ onSubmitUsername }) {
       </div>
       <button type='submit'>Submit</button>
     </form>
-  )
+  );
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
-  return <UsernameForm onSubmitUsername={onSubmitUsername} />
+  const onSubmitUsername = username => alert(`You entered: ${username}`);
+  return <UsernameForm onSubmitUsername={onSubmitUsername} />;
 }
 
-export default App
+export default App;
