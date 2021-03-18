@@ -6,44 +6,83 @@ import { fetchPokemon, PokemonInfoFallback, PokemonDataView } from '../pokemon';
 import { PokemonForm } from '../pokemon';
 
 function PokemonInfo({ pokemonName }) {
-  const [status, setStatus] = React.useState('idle');
-  const [pokemon, setPokemon] = React.useState(null);
-  const [error, setError] = React.useState(null);
+  const [state, setState] = React.useState({
+    status: 'idle',
+    pokemon: null,
+    error: null,
+  });
 
   React.useEffect(() => {
     if (!pokemonName) return;
-
-    setStatus('pending');
-    setPokemon(null);
+    setState(state => {
+      return {
+        ...state,
+        status: 'pending',
+        pokemon: null,
+      };
+    });
 
     fetchPokemon(pokemonName)
       .then(pokemonData => {
-        setPokemon(pokemonData);
-        setStatus('resolved');
+        setState(state => {
+          return {
+            ...state,
+            pokemon: pokemonData,
+            status: 'resolved',
+          };
+        });
       })
       .catch(error => {
-        setError(error);
-        setStatus('rejected');
+        setState(state => {
+          return {
+            ...state,
+            error,
+            status: 'rejected',
+          };
+        });
       });
   }, [pokemonName]);
 
-  if (status === 'rejected') {
-    return (
-      <div role='alert'>
-        There was an error: <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
-      </div>
-    );
-  }
-
-  if (status === 'idle') {
+  console.log('state:', state);
+  if (state.status === 'idle') {
     return 'Submit a pokemon';
-  }
-
-  if (status === 'pending') {
+  } else if (state.status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />;
+  } else if (state.status === 'rejected') {
+    throw state.error;
+  } else {
+    // status === 'resolved'
+    return <PokemonDataView pokemon={state.pokemon} />;
   }
+}
 
-  return <PokemonDataView pokemon={pokemon} />;
+class ErrorBoundary extends React.Component {
+  state = { error: null, errorInfo: null };
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error, errorInfo });
+    // can report to any error service like sentry
+  }
+  render() {
+    if (this.state.errorInfo) {
+      return (
+        <React.Fragment>
+          {this.state.error && (
+            <div role='alert'>
+              There was an error: <pre style={{ whiteSpace: 'normal' }}>{this.state.error.message}</pre>
+            </div>
+          )}
+          <details style={{ whiteSpace: 'pre-wrap' }}>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.componentStack}
+          </details>
+        </React.Fragment>
+      );
+    }
+
+    return this.props.children;
+  }
 }
 
 function App() {
@@ -58,7 +97,9 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className='pokemon-info'>
-        <PokemonInfo pokemonName={pokemonName} />
+        <ErrorBoundary>
+          <PokemonInfo pokemonName={pokemonName} />
+        </ErrorBoundary>
       </div>
     </div>
   );
