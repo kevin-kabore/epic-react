@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --fix **/src/**/*.js",
-    "format": "prettier --write **/src/**/*.{ts,js,jsx,css} --config .prettierrc"
+    "format": "prettier --write **/src/**/*.{ts,js,css} --config .prettierrc"
   },
   "devDependencies": {
     "eslint": "^7.22.0",

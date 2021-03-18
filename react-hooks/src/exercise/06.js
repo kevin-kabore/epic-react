@@ -18,11 +18,11 @@ function PokemonInfo({ pokemonName }) {
 
     fetchPokemon(pokemonName)
       .then(pokemonData => {
-        setPokemon(pokemonData)
+        setPokemon(pokemonData);
         setStatus('resolved');
       })
       .catch(error => {
-        setError(error)
+        setError(error);
         setStatus('rejected');
       });
   }, [pokemonName]);
@@ -33,15 +33,15 @@ function PokemonInfo({ pokemonName }) {
         There was an error: <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
       </div>
     );
-  } 
+  }
 
   if (status === 'idle') {
     return 'Submit a pokemon';
-  } 
+  }
 
   if (status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />;
-  } 
+  }
 
   return <PokemonDataView pokemon={pokemon} />;
 }
