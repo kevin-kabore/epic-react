@@ -11,6 +11,7 @@ function PokemonInfo({ pokemonName }) {
     pokemon: null,
     error: null,
   });
+  const { status, pokemon, error } = state;
 
   React.useEffect(() => {
     if (!pokemonName) return;
@@ -43,42 +44,43 @@ function PokemonInfo({ pokemonName }) {
       });
   }, [pokemonName]);
 
-  console.log('state:', state);
-  if (state.status === 'idle') {
+  if (status === 'idle') {
     return 'Submit a pokemon';
-  } else if (state.status === 'pending') {
+  } else if (status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />;
-  } else if (state.status === 'rejected') {
-    throw state.error;
+  } else if (status === 'rejected') {
+    // this will be handled by our error boundary
+    throw error;
   } else {
     // status === 'resolved'
-    return <PokemonDataView pokemon={state.pokemon} />;
+    return <PokemonDataView pokemon={pokemon} />;
   }
 }
 
+function ErrorFallBack({ error }) {
+  return (
+    <div role='alert'>
+      There was an error: <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+    </div>
+  );
+}
+
 class ErrorBoundary extends React.Component {
-  state = { error: null, errorInfo: null };
+  state = { error: null };
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
 
   componentDidCatch(error, errorInfo) {
-    this.setState({ error, errorInfo });
-    // can report to any error service like sentry
+    // can report stack trace to any error service ex: sentry
+    // errorInfo.componentStack
   }
+
   render() {
-    if (this.state.errorInfo) {
-      return (
-        <React.Fragment>
-          {this.state.error && (
-            <div role='alert'>
-              There was an error: <pre style={{ whiteSpace: 'normal' }}>{this.state.error.message}</pre>
-            </div>
-          )}
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo.componentStack}
-          </details>
-        </React.Fragment>
-      );
+    const { error } = this.state;
+    if (error) {
+      return <this.props.FallBackComponent error={error} />;
     }
 
     return this.props.children;
@@ -97,7 +99,7 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className='pokemon-info'>
-        <ErrorBoundary>
+        <ErrorBoundary FallBackComponent={ErrorFallBack}>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
