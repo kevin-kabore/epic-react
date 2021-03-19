@@ -2,13 +2,12 @@
 // http://localhost:3000/isolated/exercise/01.js
 
 import * as React from 'react';
-function countReducer(state, newState) {
-  return state + newState;
+function countReducer(count, step) {
+  return count + step;
 }
 function Counter({ initialCount = 0, step = 1 }) {
-  const [count, setCount] = React.useReducer(countReducer, initialCount);
-  // const setCount = React.useCallback(step => dispatch(step + count))
-  const increment = () => setCount(step);
+  const [count, changeCount] = React.useReducer(countReducer, initialCount);
+  const increment = () => changeCount(step);
   return <button onClick={increment}>{count}</button>;
 }
 
