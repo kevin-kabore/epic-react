@@ -11,19 +11,19 @@ const countReducer = (state, action) => {
       return {
         ...state,
         count: state.count + action.step,
-      }
+      };
     }
-    default: 
+    default:
       throw new Error(`Unsupported action type: ${action.type}`);
   }
-}
+};
 
 function Counter({ initialCount = 0, step = 1 }) {
   const [state, dispatch] = React.useReducer(countReducer, {
     count: initialCount,
   });
   const { count } = state;
-  const increment = () => dispatch({ type: INCREMENT, step })
+  const increment = () => dispatch({ type: INCREMENT, step });
   return <button onClick={increment}>{count}</button>;
 }
 
