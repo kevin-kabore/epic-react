@@ -2,6 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react';
+import {ErrorBoundary} from 'react-error-boundary';
 import { fetchPokemon, PokemonInfoFallback, PokemonDataView } from '../pokemon';
 import { PokemonForm } from '../pokemon';
 
@@ -65,28 +66,6 @@ function ErrorFallBack({ error }) {
   );
 }
 
-class ErrorBoundary extends React.Component {
-  state = { error: null };
-
-  static getDerivedStateFromError(error) {
-    return { error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // can report stack trace to any error service ex: sentry
-    // errorInfo.componentStack
-  }
-
-  render() {
-    const { error } = this.state;
-    if (error) {
-      return <this.props.FallBackComponent error={error} />;
-    }
-
-    return this.props.children;
-  }
-}
-
 function App() {
   const [pokemonName, setPokemonName] = React.useState('');
 
@@ -99,7 +78,10 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className='pokemon-info'>
-        <ErrorBoundary key={pokemonName} FallBackComponent={ErrorFallBack}>
+        <ErrorBoundary 
+          FallbackComponent={ErrorFallBack}
+          resetKeys={[pokemonName]}
+        >
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
