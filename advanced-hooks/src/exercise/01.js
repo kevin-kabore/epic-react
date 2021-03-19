@@ -2,7 +2,10 @@
 // http://localhost:3000/isolated/exercise/01.js
 
 import * as React from 'react';
-const countReducer = (state, action) => 
+const countReducer = (state, action) => ({
+  ...state, // always spread the state
+  ...(typeof action === 'function' ? action(action) : action),
+})
   typeof action === 'function' ? action(state) : ({ ...state, ...action });
 
 function Counter({ initialCount = 0, step = 1 }) {
