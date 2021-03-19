@@ -7,13 +7,14 @@ const INCREMENT = 'INCREMENT';
 
 const countReducer = (state, action) => {
   switch (action.type) {
-    case INCREMENT:
+    case INCREMENT: {
       return {
         ...state,
         count: state.count + action.step,
       }
+    }
     default: 
-      return state
+      throw new Error(`Unsupported action type: ${action.type}`);
   }
 }
 
