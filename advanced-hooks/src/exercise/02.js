@@ -28,7 +28,27 @@ function asyncReducer(state, action) {
   }
 }
 
+const makeCancellable = promise => {
+  let isCancelled = false
+
+  const wrappedPromise = new Promise((resolve, reject) => {
+    promise.then(
+      data => (isCancelled ? reject({isCancelled: true}) : resolve(data)),
+      err => (isCancelled ? reject({isCancelled: true}) : reject(err)),
+    )
+  })
+
+  return {
+    promise: wrappedPromise,
+    cancel: () => {
+      isCancelled = true
+    },
+  }
+}
+
 const useAsync = initialState => {
+  const promiseRef = React.useRef(null)
+
   const [state, dispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
     data: null,
@@ -37,16 +57,25 @@ const useAsync = initialState => {
   })
 
   const run = React.useCallback(promise => {
+    promiseRef.current = promiseRef.current || makeCancellable(promise)
     dispatch({type: 'pending'})
-    promise.then(
-      data => {
+    promiseRef.current.promise
+      .then(data => {
         dispatch({type: 'resolved', data})
-      },
-      error => {
+      })
+      .catch(error => {
+        if (error.isCancelled) return
         dispatch({type: 'rejected', error})
-      },
-    )
+      })
   }, [])
+
+  React.useEffect(() => {
+    if (!promiseRef.current || promiseRef.curr) return
+    return () => {
+      promiseRef.current.cancel()
+      promiseRef.current = null
+    }
+  })
 
   return {...state, run}
 }
@@ -101,7 +130,13 @@ function App() {
 function AppWithUnmountCheckbox() {
   const [mountApp, setMountApp] = React.useState(true)
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
       <label>
         <input
           type="checkbox"
