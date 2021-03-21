@@ -1,14 +1,14 @@
 // useEffect: HTTP requests
 // http://localhost:3000/isolated/exercise/06.js
 
-import * as React from 'react';
+import * as React from 'react'
 // 🐨 you'll want the following additional things from '../pokemon':
 // fetchPokemon: the function we call to get the pokemon info
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
 // PokemonDataView: the stuff we use to display the pokemon info
-import { PokemonForm } from '../pokemon';
+import {PokemonForm} from '../pokemon'
 
-function PokemonInfo({ pokemonName }) {
+function PokemonInfo({pokemonName}) {
   // 🐨 Have state for the pokemon (null)
   // 🐨 use React.useEffect where the callback should be called whenever the
   // pokemon name changes.
@@ -25,25 +25,25 @@ function PokemonInfo({ pokemonName }) {
   //   3. pokemon: <PokemonDataView pokemon={pokemon} />
 
   // 💣 remove this
-  return 'TODO';
+  return 'TODO'
 }
 
 function App() {
-  const [pokemonName, setPokemonName] = React.useState('');
+  const [pokemonName, setPokemonName] = React.useState('')
 
   function handleSubmit(newPokemonName) {
-    setPokemonName(newPokemonName);
+    setPokemonName(newPokemonName)
   }
 
   return (
-    <div className='pokemon-info-app'>
+    <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
-      <div className='pokemon-info'>
+      <div className="pokemon-info">
         <PokemonInfo pokemonName={pokemonName} />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

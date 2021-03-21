@@ -2,78 +2,84 @@
 // 💯 reset the error boundary
 // http://localhost:3000/isolated/final/06.extra-7.js
 
-import * as React from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { fetchPokemon, PokemonInfoFallback, PokemonForm, PokemonDataView } from '../pokemon';
+import * as React from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
+import {
+  fetchPokemon,
+  PokemonInfoFallback,
+  PokemonForm,
+  PokemonDataView,
+} from '../pokemon'
 
-function PokemonInfo({ pokemonName }) {
+function PokemonInfo({pokemonName}) {
   const [state, setState] = React.useState({
     status: pokemonName ? 'pending' : 'idle',
     pokemon: null,
     error: null,
-  });
-  const { status, pokemon, error } = state;
+  })
+  const {status, pokemon, error} = state
 
   React.useEffect(() => {
     if (!pokemonName) {
-      return;
+      return
     }
-    setState({ status: 'pending' });
+    setState({status: 'pending'})
     fetchPokemon(pokemonName).then(
       pokemon => {
-        setState({ status: 'resolved', pokemon });
+        setState({status: 'resolved', pokemon})
       },
       error => {
-        setState({ status: 'rejected', error });
+        setState({status: 'rejected', error})
       },
-    );
-  }, [pokemonName]);
+    )
+  }, [pokemonName])
 
   if (status === 'idle') {
-    return 'Submit a pokemon';
+    return 'Submit a pokemon'
   } else if (status === 'pending') {
-    return <PokemonInfoFallback name={pokemonName} />;
+    return <PokemonInfoFallback name={pokemonName} />
   } else if (status === 'rejected') {
     // this will be handled by an error boundary
-    throw error;
+    throw error
   } else if (status === 'resolved') {
-    return <PokemonDataView pokemon={pokemon} />;
+    return <PokemonDataView pokemon={pokemon} />
   }
 
-  throw new Error('This should be impossible');
+  throw new Error('This should be impossible')
 }
 
-function ErrorFallback({ error, resetErrorBoundary }) {
+function ErrorFallback({error, resetErrorBoundary}) {
   return (
-    <div role='alert'>
-      There was an error: <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+    <div role="alert">
+      There was an error:{' '}
+      <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
-  );
+  )
 }
 
 function App() {
-  const [pokemonName, setPokemonName] = React.useState('');
+  const [pokemonName, setPokemonName] = React.useState('')
 
   function handleSubmit(newPokemonName) {
-    setPokemonName(newPokemonName);
+    setPokemonName(newPokemonName)
   }
 
   function handleReset() {
-    setPokemonName('');
+    setPokemonName('')
   }
 
   return (
-    <div className='pokemon-info-app'>
+    <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
-      <div className='pokemon-info'>
+      <div className="pokemon-info">
         <ErrorBoundary FallbackComponent={ErrorFallback} onReset={handleReset}>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
