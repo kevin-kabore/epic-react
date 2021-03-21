@@ -46,7 +46,7 @@ const makeCancellable = promise => {
   }
 }
 
-const useAsync = initialState => {
+const useCancellableAsync = initialState => {
   const promiseRef = React.useRef(null)
 
   const [state, dispatch] = React.useReducer(asyncReducer, {
@@ -70,12 +70,56 @@ const useAsync = initialState => {
   }, [])
 
   React.useEffect(() => {
-    if (!promiseRef.current || promiseRef.curr) return
+    if (!promiseRef.current) return
     return () => {
       promiseRef.current.cancel()
       promiseRef.current = null
     }
+  }, [])
+
+  return {...state, run}
+}
+
+function useSafeDispatch(dispatch) {
+  const mountedRef = React.useRef(false)
+
+  React.useLayoutEffect(() => {
+    mountedRef.current = true
+    return () => (mountedRef.current = false)
+  }, [])
+
+  return React.useCallback(
+    (...args) => {
+      if (!mountedRef.current) return
+      dispatch(...args)
+    },
+    [dispatch],
+  )
+}
+
+const useAsync = initialState => {
+  const [state, unsafeDispatch] = React.useReducer(asyncReducer, {
+    status: 'idle',
+    data: null,
+    error: null,
+    ...initialState,
   })
+
+  const dispatch = useSafeDispatch(unsafeDispatch)
+
+  const run = React.useCallback(
+    promise => {
+      dispatch({type: 'pending'})
+      promise
+        .then(data => {
+          dispatch({type: 'resolved', data})
+        })
+        .catch(error => {
+          dispatch({type: 'rejected', error})
+        })
+    },
+    [dispatch],
+  )
 
   return {...state, run}
 }
