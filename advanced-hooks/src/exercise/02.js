@@ -22,7 +22,7 @@ function asyncReducer(state, action) {
   }
 }
 
-const useAsync = (asyncCallback, initialState, dependencies) => {
+const useAsync = (asyncCallback, initialState) => {
   const [state, dispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
     data: null,
@@ -31,7 +31,6 @@ const useAsync = (asyncCallback, initialState, dependencies) => {
   });
 
   React.useEffect(() => {
-    // 💰 this first early-exit bit is a little tricky, so let me give you a hint:
     const promise = asyncCallback();
     if (!promise) return;
     dispatch({ type: 'pending' });
@@ -43,22 +42,21 @@ const useAsync = (asyncCallback, initialState, dependencies) => {
         dispatch({ type: 'rejected', error });
       },
     );
-    // the react-hooks/exhaustive-deps rule. We'll fix this in an extra credit.
-  }, dependencies);
+  }, [asyncCallback]);
 
   return state;
 };
 
 function PokemonInfo({ pokemonName }) {
+  const asyncCallback = React.useCallback(() => {
+    if (!pokemonName) return;
+
+    return fetchPokemon(pokemonName);
+  }, [pokemonName]);
+
   const state = useAsync(
-    () => {
-      if (!pokemonName) {
-        return;
-      }
-      return fetchPokemon(pokemonName);
-    },
-    { status: pokemonName ? 'pending' : 'idle' },
-    [pokemonName],
+    asyncCallback,
+    { status: pokemonName ? 'pending' : 'idle' }
   );
 
   const { data: pokemon, status, error } = state;
