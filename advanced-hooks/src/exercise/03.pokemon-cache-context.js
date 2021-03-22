@@ -1,5 +1,15 @@
 import * as React from 'react'
 
+function pokemonCacheReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_POKEMON': {
+      return {...state, [action.pokemonName]: action.pokemonData}
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
+}
 const PokemonCacheContext = React.createContext()
 
 function PokemonCacheProvider(props) {
@@ -15,17 +25,6 @@ function usePokemonCache() {
     )
   }
   return context
-}
-
-function pokemonCacheReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_POKEMON': {
-      return {...state, [action.pokemonName]: action.pokemonData}
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
-  }
 }
 
 export {PokemonCacheProvider, usePokemonCache}
