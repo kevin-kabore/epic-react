@@ -14,36 +14,10 @@ import {
   PokemonErrorBoundary,
 } from '../pokemon'
 import {useAsync} from '../utils'
-
-// 🐨 Create a PokemonCacheContext
-const PokemonCacheContext = React.createContext();
-
-// 🐨 create a PokemonCacheProvider function
-function PokemonCacheProvider(props) {
-  // 🐨 useReducer with pokemonCacheReducer in your PokemonCacheProvider
-  // 💰 you can grab the one that's in PokemonInfo
-  const [cache, dispatch] = React.useReducer(pokemonCacheReducer, {})
-  // 🐨 return your context provider with the value assigned to what you get back from useReducer
-  // 💰 value={[cache, dispatch]}
-  // 💰 make sure you forward the props.children!
-  return <PokemonCacheContext.Provider value={[cache, dispatch]} {...props}/>
-}
-
-function pokemonCacheReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_POKEMON': {
-      return {...state, [action.pokemonName]: action.pokemonData}
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
-  }
-}
+import {PokemonCacheProvider, usePokemonCache} from './03.pokemon-cache-context'
 
 function PokemonInfo({pokemonName}) {
-  // 💣 remove the useReducer here (or move it up to your PokemonCacheProvider)
-  // 🐨 get the cache and dispatch from useContext with PokemonCacheContext
-  const [cache, dispatch] = React.useContext(PokemonCacheContext);
+  const [cache, dispatch] = usePokemonCache()
 
   const {data: pokemon, status, error, run, setData} = useAsync()
 
@@ -74,8 +48,7 @@ function PokemonInfo({pokemonName}) {
 }
 
 function PreviousPokemon({onSelect}) {
-  // 🐨 get the cache from useContext with PokemonCacheContext
-  const [cache] = React.useContext(PokemonCacheContext);
+  const [cache] = usePokemonCache()
   return (
     <div>
       Previous Pokemon
