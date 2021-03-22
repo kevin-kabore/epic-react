@@ -46,8 +46,8 @@ const makeCancellable = promise => {
   }
 }
 
-
-function useCancellableAsync(initialState) { // eslint-disable-line no-unused-vars
+function useCancellableAsync(initialState) {
+  // eslint-disable-line no-unused-vars
   const promiseRef = React.useRef(null)
 
   const [state, dispatch] = React.useReducer(asyncReducer, {
