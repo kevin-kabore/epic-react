@@ -6,6 +6,9 @@ import * as React from 'react'
 function MessagesDisplay({messages}) {
   const containerRef = React.useRef()
   // 🐨 replace useEffect with useLayoutEffect
+  // b/c we are making an observable change to the DOM
+  // update the dom before the brwoser paints so to the user,
+  // it is observable "instantly"
   React.useLayoutEffect(() => {
     containerRef.current.scrollTop = containerRef.current.scrollHeight
   })
