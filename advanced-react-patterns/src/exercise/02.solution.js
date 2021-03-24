@@ -9,11 +9,12 @@ function Toggle({children}) {
   const toggle = () => setOn(!on)
 
   return React.Children.map(children, child =>
-    typeof child.type === 'string'
-      ? child
-      : React.cloneElement(child, {toggle, on}),
+    allowedTypes.includes(child.type)
+      ? React.cloneElement(child, {toggle, on})
+      : child,
   )
 }
+const allowedTypes = [ToggleOn, ToggleOff, ToggleButton]
 
 const ToggleOn = ({on, children}) => (on ? children : null)
 const ToggleOff = ({on, children}) => (on ? null : children)
