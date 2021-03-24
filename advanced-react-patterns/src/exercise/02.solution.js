@@ -14,11 +14,12 @@ function Toggle({children}) {
       : child,
   )
 }
-const allowedTypes = [ToggleOn, ToggleOff, ToggleButton]
 
 const ToggleOn = ({on, children}) => (on ? children : null)
 const ToggleOff = ({on, children}) => (on ? null : children)
 const ToggleButton = ({on, toggle}) => <Switch on={on} onClick={toggle} />
+
+const allowedTypes = [ToggleOn, ToggleOff, ToggleButton]
 
 function App() {
   return (
