@@ -31,37 +31,24 @@ function useToggle({
   reducer = toggleReducer,
   onChange,
   on: controlledOn,
+  readOnly = false,
 } = {}) {
   const {current: initialState} = React.useRef({on: initialOn})
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
   const onIsControlled = controlledOn !== null
-  // passing on without onChange
-  if (onIsControlled && !onChange) {
+  const hasOnChange = Boolean(onChange)
+  React.useEffect(() => {
+    // passing on without onChange
     warning(
-      false,
-      'You provided an `on` prop to a Toggle without an `onChange` handler. This will render a read-only field. If the field should be mutable, set `onChange`.',
+      !(!hasOnChange && onIsControlled && !readOnly),
+      'You provided an `on` prop to useToggle without an `onChange` handler. This will render a read-only toggle. If you want it to be mutable, use `initialOn`. Otherwise, set either `onChange` or `readOnly`.',
     )
-  }
+  }, [hasOnChange, onIsControlled, readOnly])
 
   const on = onIsControlled ? controlledOn : state.on
 
   function dispatchWithOnChange(action) {
-    // passing a value for on and later passing undefined or null
-    if (onIsControlled && (on === undefined || on === null)) {
-      warning(
-        false,
-        'A component is changing a controlled Toggle to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled Toggle for the lifetime of the component.',
-      )
-    }
-    // passing undefined or null for on and later passing a value
-    if (!onIsControlled && controlledOn) {
-      warning(
-        false,
-        'A component is changing an uncontrolled Toggle of type undefined to be controlled. Toggle elements should not switch from uncontrolled to controlled (or vice versa). Decide between using a controlled or uncontrolled Toggle element for the lifetime of the component.',
-      )
-    }
-
     // only update ourselves if on is not controlled
     if (!onIsControlled) {
       dispatch(action)
@@ -99,8 +86,12 @@ function useToggle({
   }
 }
 
-function Toggle({on: controlledOn, onChange}) {
-  const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
+function Toggle({on: controlledOn, onChange, readOnly}) {
+  const {on, getTogglerProps} = useToggle({
+    on: controlledOn,
+    onChange,
+    readOnly,
+  })
   const props = getTogglerProps({on})
   return <Switch {...props} />
 }
@@ -125,7 +116,7 @@ function App() {
   return (
     <div>
       <div>
-        <Toggle on={bothOn} onChange={handleToggleChange} />
+        <Toggle on={bothOn} readOnly={true} />
         <Toggle on={bothOn} onChange={handleToggleChange} />
       </div>
       {timesClicked > 4 ? (
@@ -141,9 +132,9 @@ function App() {
       <div>
         <div>Uncontrolled Toggle:</div>
         <Toggle
-        // onChange={(...args) =>
-        //   console.info('Uncontrolled Toggle onChange', ...args)
-        // }
+          onChange={(...args) =>
+            console.info('Uncontrolled Toggle onChange', ...args)
+          }
         />
       </div>
     </div>
