@@ -30,13 +30,16 @@ function useToggle({
   initialOn = false,
   reducer = toggleReducer,
   onChange,
-  on: controlledOn,
+  on: controlledOn = null,
   readOnly = false,
 } = {}) {
   const {current: initialState} = React.useRef({on: initialOn})
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
+  // notice the !=
   const onIsControlled = controlledOn !== null
+  // const onIsControlled = controlledOn !== null || controlledOn !== undefined
+
   const hasOnChange = Boolean(onChange)
   React.useEffect(() => {
     // passing on without onChange
@@ -116,7 +119,7 @@ function App() {
   return (
     <div>
       <div>
-        <Toggle on={bothOn} readOnly={true} />
+        <Toggle on={bothOn} onChange={handleToggleChange} />
         <Toggle on={bothOn} onChange={handleToggleChange} />
       </div>
       {timesClicked > 4 ? (
@@ -132,9 +135,9 @@ function App() {
       <div>
         <div>Uncontrolled Toggle:</div>
         <Toggle
-          onChange={(...args) =>
-            console.info('Uncontrolled Toggle onChange', ...args)
-          }
+        // onChange={(...args) =>
+        //   console.info('Uncontrolled Toggle onChange', ...args)
+        // }
         />
       </div>
     </div>
