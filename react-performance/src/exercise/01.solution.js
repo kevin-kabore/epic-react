@@ -2,19 +2,23 @@
 // http://localhost:3000/isolated/exercise/01.js
 
 import * as React from 'react'
-// 💣 remove this import
-import Globe from '../globe'
 
-// 🐨 use React.lazy to create a Globe component which uses a dynamic import
-// to get the Globe component from the '../globe' module.
+// // prefetch
+// const Globe = React.lazy(() => import(/* webpackPrefetch: true */ '../globe'))
+
+// don't care about multiple imports b/c
+// our bundler caches all dynnamic imports and resolved values
+function loadGlobe() {
+  return import('../globe')
+}
+// so this will already be in the cache when <Globe /> is rendered
+// and our lazy import is called
+const Globe = React.lazy(loadGlobe)
+// const Globe = React.lazy(() => import('../globe'))
 
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)
 
-  // 🐨 wrap the code below in a <React.Suspense /> component
-  // with a fallback.
-  // 💰 try putting it in a few different places and observe how that
-  // impacts the user experience.
   return (
     <div
       style={{
@@ -26,8 +30,13 @@ function App() {
         padding: '2rem',
       }}
     >
-      <label style={{marginBottom: '1rem'}}>
+      <label
+        style={{marginBottom: '1rem'}}
+        onMouseEnter={loadGlobe}
+        onFocus={loadGlobe}
+      >
         <input
+          ref={inputRef}
           type="checkbox"
           checked={showGlobe}
           onChange={e => setShowGlobe(e.target.checked)}
@@ -35,13 +44,12 @@ function App() {
         {' show globe'}
       </label>
       <div style={{width: 400, height: 400}}>
-        {showGlobe ? <Globe /> : null}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          {showGlobe ? <Globe /> : null}
+        </React.Suspense>
       </div>
     </div>
   )
 }
-// 🦉 Note that if you're not on the isolated page, then you'll notice that this
-// app actually already has a React.Suspense component higher up in the tree
-// where this component is rendered, so you *could* just rely on that one.
 
 export default App
