@@ -3,11 +3,20 @@
 
 import * as React from 'react'
 
-const Globe = React.lazy(() => import('../globe'))
+// don't care about multiple imports b/c
+// our bundler caches all dynnamic imports and resolved values
+function loadGlobe() {
+  return import('../globe')
+}
+// so this will already be in the cache when <Globe /> is rendered
+// and our lazy import is called
+const Globe = React.lazy(loadGlobe)
+// const Globe = React.lazy(() => import('../globe'))
 
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)
-
+  const inputRef = React.useRef()
+  console.log('inputRef:', inputRef)
   return (
     <div
       style={{
@@ -19,8 +28,13 @@ function App() {
         padding: '2rem',
       }}
     >
-      <label style={{marginBottom: '1rem'}}>
+      <label
+        style={{marginBottom: '1rem'}}
+        onMouseEnter={loadGlobe}
+        onFocus={loadGlobe}
+      >
         <input
+          ref={inputRef}
           type="checkbox"
           checked={showGlobe}
           onChange={e => setShowGlobe(e.target.checked)}
