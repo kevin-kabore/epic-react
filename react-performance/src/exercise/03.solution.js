@@ -1,3 +1,4 @@
+
 // React.memo for reducing unnecessary re-renders
 // http://localhost:3000/isolated/exercise/03.js
 
@@ -21,8 +22,8 @@ function Menu({
           getItemProps={getItemProps}
           item={item}
           index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
         >
           {item.name}
         </ListItem>
@@ -31,17 +32,16 @@ function Menu({
   )
 }
 // 🐨 Memoize the Menu here using React.memo
+Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
   item,
   index,
-  selectedItem,
-  highlightedIndex,
+  isSelected,
+  isHighlighted,
   ...props
 }) {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
@@ -56,7 +56,25 @@ function ListItem({
     />
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
+ListItem = React.memo(ListItem)
+// ListItem = React.memo(
+//   ListItem, // component
+//   (prevProps, nextProps) => {
+//     // compare fn => true: DO NOT rerender, false: rerender
+//     if (prevProps.getItemProps !== nextProps.getItemProps) return false // re-render
+//     if (prevProps.item !== nextProps.item) return false
+//     if (prevProps.index !== nextProps.index) return false
+//     if (prevProps.selectedItem !== nextProps.selectedItem) return false
+
+//     if (prevProps.highlightedIndex !== nextProps.highlightedIndex) {
+//       const wasHighlighted = prevProps.highlightedIndex === prevProps.index
+//       const isHighlighted = nextProps.highlightedIndex === nextProps.index
+
+//       return wasHighlighted === isHighlighted // don't re-render if no change
+//     }
+//     return true // DO NOT re-render
+//   },
+// )
 
 function App() {
   const forceRerender = useForceRerender()
