@@ -31,7 +31,7 @@ function Menu({
   )
 }
 // 🐨 Memoize the Menu here using React.memo
-Menu = React.memo(Menu);
+Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
@@ -60,11 +60,22 @@ function ListItem({
 // 🐨 Memoize the ListItem here using React.memo
 ListItem = React.memo(
   ListItem, // component
-  (prevProps, nextProps) => { // compare fn => true: no rerender, false: rerender
-    const wasHighlighted = prevProps.highlightedIndex === prevProps.index;
-    const willHighlight = nextProps.highlightedIndex === nextProps.index;
-    if (!wasHighlighted || !willHighlight) return false; // don't re-render
-})
+  (prevProps, nextProps) => {
+    // compare fn => true: DO NOT rerender, false: rerender
+    if (prevProps.getItemProps !== nextProps.getItemProps) return false // re-render
+    if (prevProps.item !== nextProps.item) return false
+    if (prevProps.index !== nextProps.index) return false
+    if (prevProps.selectedItem !== nextProps.selectedItem) return false
+
+    if (prevProps.highlightedIndex !== nextProps.highlightedIndex) {
+      const wasHighlighted = prevProps.highlightedIndex === prevProps.index
+      const isHighlighted = nextProps.highlightedIndex === nextProps.index
+
+      return wasHighlighted === isHighlighted // don't re-render if no change
+    }
+    return true // DO NOT re-render
+  },
+)
 
 function App() {
   const forceRerender = useForceRerender()
