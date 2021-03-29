@@ -31,7 +31,7 @@ function Menu({
   )
 }
 // 🐨 Memoize the Menu here using React.memo
-Menu = React.memo(Menu)
+Menu = React.memo(Menu);
 
 function ListItem({
   getItemProps,
@@ -58,7 +58,13 @@ function ListItem({
   )
 }
 // 🐨 Memoize the ListItem here using React.memo
-ListItem = React.memo(ListItem)
+ListItem = React.memo(
+  ListItem, // component
+  (prevProps, nextProps) => { // compare fn => true: no rerender, false: rerender
+    const wasHighlighted = prevProps.highlightedIndex === prevProps.index;
+    const willHighlight = nextProps.highlightedIndex === nextProps.index;
+    if (!wasHighlighted || !willHighlight) return false; // don't re-render
+})
 
 function App() {
   const forceRerender = useForceRerender()
