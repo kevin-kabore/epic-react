@@ -9,7 +9,7 @@ import * as React from 'react'
 // don't care about multiple imports b/c
 // our bundler caches all dynnamic imports and resolved values
 function loadGlobe() {
-  return import('../globe')
+  return import(/* webpackChunkName: "Globe"  */ '../globe')
 }
 // so this will already be in the cache when <Globe /> is rendered
 // and our lazy import is called
@@ -36,7 +36,6 @@ function App() {
         onFocus={loadGlobe}
       >
         <input
-          ref={inputRef}
           type="checkbox"
           checked={showGlobe}
           onChange={e => setShowGlobe(e.target.checked)}
