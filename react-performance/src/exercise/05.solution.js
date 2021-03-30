@@ -39,9 +39,7 @@ function AppProvider({children}) {
     grid: initialGrid,
   })
   // 🐨 memoize this value with React.useMemo
-  const value = React.useMemo(() => [state, dispatch], [state])
-  // const value = [state, dispatch]
-  console.log('value:', value)
+  const value = [state, dispatch]
   return (
     <AppStateContext.Provider value={value}>
       {children}
