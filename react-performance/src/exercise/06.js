@@ -30,10 +30,10 @@ function DogProvider(props) {
   return <DogContext.Provider value={value} {...props} />
 }
 
-function useDog() {
+function useDogState() {
   const context = React.useContext(DogContext)
   if (!context) {
-    throw new Error('useDog must be used within the DogProvider')
+    throw new Error('useDogState must be used within the DogProvider')
   }
   return context
 }
@@ -109,6 +109,11 @@ Grid = React.memo(Grid)
 function Cell({row, column}) {
   const state = useGridState()
   const cell = state.grid[row][column]
+  return <CellImpl cell={cell} row={row} column={column} />
+}
+Cell = React.memo(Cell)
+
+function CellImpl({cell, row, column}) {
   const dispatch = useGridDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -124,10 +129,10 @@ function Cell({row, column}) {
     </button>
   )
 }
-Cell = React.memo(Cell)
+CellImpl = React.memo(CellImpl)
 
 function DogNameInput() {
-  const [{name}, dispatch] = useDog()
+  const [{name}, dispatch] = useDogState()
 
   function handleChange(e) {
     dispatch({type: 'TYPED_IN_DOG_INPUT', name: e.target.value})
