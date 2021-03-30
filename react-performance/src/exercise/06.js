@@ -108,12 +108,24 @@ Grid = React.memo(Grid)
 
 function Cell({row, column}) {
   const state = useGridState()
-  const cell = state.grid[row][column]
-  return <CellImpl cell={cell} row={row} column={column} />
+  // return <CellImpl cell={cell} row={row} column={column} />
+  return withStateSlice(CellImpl, () => ({
+    cell: state.grid[row][column],
+    row,
+    column,
+  }))
 }
 Cell = React.memo(Cell)
 
+function withStateSlice(Component, stateSlice) {
+  const state = stateSlice()
+  return <Component {...state} />
+}
+
 function CellImpl({cell, row, column}) {
+  console.log('row:', row)
+  console.log('cell:', cell)
+  console.log('column:', column)
   const dispatch = useGridDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
