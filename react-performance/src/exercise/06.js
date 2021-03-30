@@ -10,37 +10,40 @@ import {
   updateGridCellState,
 } from '../utils'
 
-const AppStateContext = React.createContext()
-AppStateContext.displayName = 'AppStateContext'
-const AppDispatchContext = React.createContext()
-AppDispatchContext.displayName = 'AppDispatchContext'
+// /dog/dog-context.js
+const DogContext = React.createContext()
+DogContext.displayName = 'DogContext'
 
-const DogNameContext = React.createContext()
-DogNameContext.displayName = 'DogNameContext'
-
-const GridStateContext = React.createContext()
-GridStateContext.displayName = 'GridStateContext'
-const GridDispatchContext = React.createContext()
-GridDispatchContext.displayName = 'GridDispatchContext'
-
-function DogNameProvider({children}) {
-  const [name, setName] = React.useState('')
-  return (
-    <DogNameContext.Provider value={[name, setName]}>
-      {children}
-    </DogNameContext.Provider>
-  )
+function dogReducer(state, action) {
+  switch (action.type) {
+    case 'TYPED_IN_DOG_INPUT': {
+      return {...state, name: action.name}
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
+}
+function DogProvider(props) {
+  const [name, dispatch] = React.useReducer(dogReducer, {name: ''})
+  const value = [name, dispatch]
+  return <DogContext.Provider value={value} {...props} />
 }
 
-function useDogName() {
-  const context = React.useContext(DogNameContext)
+function useDog() {
+  const context = React.useContext(DogContext)
   if (!context) {
-    throw new Error('useDogName must be used within the DogNameProvider')
+    throw new Error('useDog must be used within the DogProvider')
   }
   return context
 }
 
 // /grid/grid-context.js
+const GridStateContext = React.createContext()
+GridStateContext.displayName = 'GridStateContext'
+const GridDispatchContext = React.createContext()
+GridDispatchContext.displayName = 'GridDispatchContext'
+
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
@@ -124,10 +127,10 @@ function Cell({row, column}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [name, setName] = useDogName()
+  const [{name}, dispatch] = useDog()
 
   function handleChange(e) {
-    setName(e.target.value)
+    dispatch({type: 'TYPED_IN_DOG_INPUT', name: e.target.value})
   }
 
   return (
@@ -153,9 +156,9 @@ function App() {
     <div className="grid-app">
       <button onClick={forceRerender}>force rerender</button>
       <div>
-        <DogNameProvider>
+        <DogProvider>
           <DogNameInput />
-        </DogNameProvider>
+        </DogProvider>
         <GridProvider>
           <Grid />
         </GridProvider>
