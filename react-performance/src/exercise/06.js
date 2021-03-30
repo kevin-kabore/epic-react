@@ -108,14 +108,16 @@ Grid = React.memo(Grid)
 
 function withStateSlice(Component, stateSliceFn) {
   const ComponentMemo = React.memo(Component)
-  function Wrapper(props) {
+  function Wrapper(props, ref) {
     const state = useGridState()
-    return <ComponentMemo state={stateSliceFn(state, props)} {...props} />
+    return (
+      <ComponentMemo ref={ref} state={stateSliceFn(state, props)} {...props} />
+    )
   }
   Wrapper.displayName = `withStateSlice(${
     Component.displayName || Component.name
   })`
-  return React.memo(Wrapper)
+  return React.memo(React.forwardRef(Wrapper))
 }
 
 function Cell({state: cell, row, column}) {
